@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        jdk 'jdk17'
+        jdk 'jdk17' // Matches the configured JDK name in Jenkins
         maven 'Maven3'
     }
 
@@ -29,6 +29,16 @@ pipeline {
         stage("Test Application") {
             steps {
                 sh "mvn test"
+            }
+        }
+
+        stage("SonarQube Analysis") {
+            steps {
+                script {
+                    withSonarQubeEnv('jenkins-sonarqube-token') { 
+                        sh "mvn sonar:sonar"
+                    }
+                }
             }
         }
     }
