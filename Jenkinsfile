@@ -90,5 +90,14 @@ pipeline {
                 }
             }
         }
+
+        stage("Deploy to EKS") {
+            steps {
+                script {
+                    // Assuming that kubectl is already configured for your EKS cluster
+                    sh 'kubectl apply -f deployment.yaml'
+                }
+            }
+        }
     }
 }
